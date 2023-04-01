@@ -1,7 +1,9 @@
-// COUNTER COMPONENT
+// GLOBALs
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
-//
+const formEl = document.querySelector(".form");
+
+// COUNTER COMPONENT
 const inputHandler = () => {
   const maxNrChars = 150;
   const nrCharsTyped = textareaEl.value.length;
@@ -13,10 +15,17 @@ const inputHandler = () => {
 textareaEl.addEventListener("input", inputHandler);
 
 // FORM COMPONENT
-const formEl = document.querySelector(".form");
-
 const submitHandler = (event) => {
   event.preventDefault();
-  console.log(event);
+  const text = textareaEl.value.toString();
+  console.log(text);
+
+  if (text.length > 5 && text.includes("#")) {
+    console.log(true);
+    formEl.classList.add("form--valid");
+  } else {
+    formEl.classList.add("form--invalid");
+    console.log(false);
+  }
 };
 formEl.addEventListener("submit", submitHandler);
