@@ -11,3 +11,12 @@ const inputHandler = () => {
 };
 
 textareaEl.addEventListener("input", inputHandler);
+
+// FORM COMPONENT
+const formEl = document.querySelector(".form");
+
+const submitHandler = (event) => {
+  event.preventDefault();
+  console.log(event);
+};
+formEl.addEventListener("submit", submitHandler);
