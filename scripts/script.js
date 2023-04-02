@@ -20,12 +20,21 @@ const submitHandler = (event) => {
   const text = textareaEl.value.toString();
   console.log(text);
 
-  if (text.length > 5 && text.includes("#")) {
-    console.log(true);
+  if (text.length > 4 && text.includes("#")) {
     formEl.classList.add("form--valid");
+
+    setTimeout(() => {
+      formEl.classList.remove("form--valid");
+      textareaEl.value = "";
+    }, 2000);
   } else {
     formEl.classList.add("form--invalid");
-    console.log(false);
+
+    setTimeout(() => {
+      formEl.classList.remove("form--invalid");
+    }, 2000);
+
+    textareaEl.focus();
   }
 };
 formEl.addEventListener("submit", submitHandler);
