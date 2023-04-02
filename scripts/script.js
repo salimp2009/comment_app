@@ -35,6 +35,18 @@ const submitHandler = (event) => {
     }, 2000);
 
     textareaEl.focus();
+    return;
   }
+
+  const hashtag = text.split(" ").find((word) => word.startsWith("#"));
+  console.log(hashtag);
+  const topic = hashtag.replace("#", "");
+  console.log(topic);
+  // const hashtag2 = text.split(" ").filter((word) => {
+  //   return word.includes("/^#/");
+  // });
+
+  // console.log(hashtag2);
+  console.log(text.split(" ").filter((item) => item.includes("#")));
 };
 formEl.addEventListener("submit", submitHandler);
