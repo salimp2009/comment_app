@@ -2,6 +2,7 @@
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 const formEl = document.querySelector(".form");
+const feedbackListEl = document.querySelector(".feedbacks");
 
 // COUNTER COMPONENT
 const inputHandler = () => {
@@ -9,7 +10,6 @@ const inputHandler = () => {
   const nrCharsTyped = textareaEl.value.length;
   const remainingChars = maxNrChars - nrCharsTyped;
   counterEl.textContent = remainingChars;
-  console.log(remainingChars);
 };
 
 textareaEl.addEventListener("input", inputHandler);
@@ -18,7 +18,6 @@ textareaEl.addEventListener("input", inputHandler);
 const submitHandler = (event) => {
   event.preventDefault();
   const text = textareaEl.value.toString();
-  console.log(text);
 
   if (text.length > 4 && text.includes("#")) {
     formEl.classList.add("form--valid");
@@ -50,5 +49,24 @@ const submitHandler = (event) => {
   // console.log("regex:", hashtag2);
 
   // console.log(text.split(" ").filter((item) => item.includes("#")));
+
+  const feedbackItemHTML = `
+    <li class="feedback">
+        <button class="upvote">
+            <i class="fa-solid fa-caret-up upvote__icon"></i>
+            <span class="upvote__count">${upvoteCount}</span>
+        </button>
+        <section class="feedback__badge">
+            <p class="feedback__letter">${badgeLetter}</p>
+        </section>
+        <div class="feedback__content">
+            <p class="feedback__company">${topic}</p>
+            <p class="feedback__text">${text}</p>
+        </div>
+        <p class="feedback__date">${daysAgo}d</p>
+    </li>
+  `;
+
+  feedbackListEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
 };
 formEl.addEventListener("submit", submitHandler);
