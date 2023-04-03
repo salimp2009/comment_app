@@ -3,6 +3,7 @@ const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 const formEl = document.querySelector(".form");
 const feedbackListEl = document.querySelector(".feedbacks");
+const submitBtnEl = document.querySelector(".submit-btn");
 
 // COUNTER COMPONENT
 const inputHandler = () => {
@@ -24,7 +25,6 @@ const submitHandler = (event) => {
 
     setTimeout(() => {
       formEl.classList.remove("form--valid");
-      textareaEl.value = "";
     }, 2000);
   } else {
     formEl.classList.add("form--invalid");
@@ -63,10 +63,13 @@ const submitHandler = (event) => {
             <p class="feedback__company">${topic}</p>
             <p class="feedback__text">${text}</p>
         </div>
-        <p class="feedback__date">${daysAgo}d</p>
+        <p class="feedback__date">${daysAgo === 0 ? "NEW" : `${daysAgo}d`}</p>
     </li>
   `;
 
   feedbackListEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
+  textareaEl.value = "";
+  submitBtnEl.blur();
+  counterEl.textContent = "150";
 };
 formEl.addEventListener("submit", submitHandler);
