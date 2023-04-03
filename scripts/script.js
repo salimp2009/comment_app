@@ -38,15 +38,17 @@ const submitHandler = (event) => {
     return;
   }
 
-  const hashtag = text.split(" ").find((word) => word.startsWith("#"));
-  console.log(hashtag);
+  const hashtag = text.split(" ").find((word) => word.includes("#"));
+  // original was company
   const topic = hashtag.replace("#", "");
-  console.log(topic);
-  // const hashtag2 = text.split(" ").filter((word) => {
-  //   return word.includes("/^#/");
-  // });
+  const badgeLetter = topic.substring(0, 2).toUpperCase();
+  const upvoteCount = 0;
+  const daysAgo = 0;
 
-  // console.log(hashtag2);
-  console.log(text.split(" ").filter((item) => item.includes("#")));
+  // const searchHash = /#/;
+  // const hashtag2 = text.split(" ").filter((word) => word.match(searchHash));
+  // console.log("regex:", hashtag2);
+
+  // console.log(text.split(" ").filter((item) => item.includes("#")));
 };
 formEl.addEventListener("submit", submitHandler);
