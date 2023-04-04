@@ -17,25 +17,24 @@ const inputHandler = () => {
 textareaEl.addEventListener("input", inputHandler);
 
 // FORM COMPONENT
-const formVisualValidator = () => {};
+const formVisualValidator = (validation) => {
+  const className = `form--${validation}`;
+
+  formEl.classList.add(className);
+
+  setTimeout(() => {
+    formEl.classList.remove(className);
+  }, 2000);
+};
 
 const submitHandler = (event) => {
   event.preventDefault();
   const text = textareaEl.value.toString();
 
   if (text.length > 4 && text.includes("#")) {
-    formEl.classList.add("form--valid");
-
-    setTimeout(() => {
-      formEl.classList.remove("form--valid");
-    }, 2000);
+    formVisualValidator("valid");
   } else {
-    formEl.classList.add("form--invalid");
-
-    setTimeout(() => {
-      formEl.classList.remove("form--invalid");
-    }, 2000);
-
+    formVisualValidator("invalid");
     textareaEl.focus();
     return;
   }
