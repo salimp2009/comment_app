@@ -5,17 +5,20 @@ const formEl = document.querySelector(".form");
 const feedbackListEl = document.querySelector(".feedbacks");
 const submitBtnEl = document.querySelector(".submit-btn");
 
+const MAX_CHARS = 150;
+
 // COUNTER COMPONENT
 const inputHandler = () => {
-  const maxNrChars = 150;
   const nrCharsTyped = textareaEl.value.length;
-  const remainingChars = maxNrChars - nrCharsTyped;
+  const remainingChars = MAX_CHARS - nrCharsTyped;
   counterEl.textContent = remainingChars;
 };
 
 textareaEl.addEventListener("input", inputHandler);
 
 // FORM COMPONENT
+const formVisualValidator = () => {};
+
 const submitHandler = (event) => {
   event.preventDefault();
   const text = textareaEl.value.toString();
@@ -70,6 +73,6 @@ const submitHandler = (event) => {
   feedbackListEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
   textareaEl.value = "";
   submitBtnEl.blur();
-  counterEl.textContent = "150";
+  counterEl.textContent = MAX_CHARS;
 };
 formEl.addEventListener("submit", submitHandler);
