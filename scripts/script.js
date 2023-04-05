@@ -75,3 +75,15 @@ const submitHandler = (event) => {
   counterEl.textContent = MAX_CHARS;
 };
 formEl.addEventListener("submit", submitHandler);
+
+// Ajax programming allows to update elements without refrefreshing page
+// FEEDBACK LIST COMPONENT
+
+fetch("https://jsonplaceholder.typicode.com/todos");
+fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data.feedbacks[0]);
+  });
