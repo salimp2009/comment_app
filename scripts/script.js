@@ -86,7 +86,7 @@ fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
     return response.json();
   })
   .then((data) => {
-    console.log(data.feedbacks[0]);
+    // console.log(data.feedbacks[0]);
     spinnerEl.remove();
 
     data.feedbacks.forEach((item) => {
@@ -111,4 +111,7 @@ fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
 
       feedbackListEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
     });
+  })
+  .catch((error) => {
+    feedbackListEl.textContent = `Failed to fetch feedback items: ${error.message}`;
   });
