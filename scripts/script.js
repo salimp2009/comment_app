@@ -4,6 +4,7 @@ const counterEl = document.querySelector(".counter");
 const formEl = document.querySelector(".form");
 const feedbackListEl = document.querySelector(".feedbacks");
 const submitBtnEl = document.querySelector(".submit-btn");
+const spinnerEl = document.querySelector(".spinner");
 
 const MAX_CHARS = 150;
 
@@ -79,14 +80,16 @@ formEl.addEventListener("submit", submitHandler);
 // Ajax programming allows to update elements without refrefreshing page
 // FEEDBACK LIST COMPONENT
 
-fetch("https://jsonplaceholder.typicode.com/todos");
+// fetch("https://jsonplaceholder.typicode.com/todos");
 fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
   .then((response) => {
     return response.json();
   })
-  .then((item) => {
-    console.log(item.feedbacks[0]);
-    item.feedbacks.forEach((item) => {
+  .then((data) => {
+    console.log(data.feedbacks[0]);
+    spinnerEl.remove();
+
+    data.feedbacks.forEach((item) => {
       const feedbackItemHTML = `
     <li class="feedback">
         <button class="upvote">
