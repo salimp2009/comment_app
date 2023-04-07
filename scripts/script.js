@@ -1,12 +1,13 @@
 // GLOBALs
+const MAX_CHARS = 150;
+const BASE_API = "https://bytegrad.com/course-assets/js/1/api";
+
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 const formEl = document.querySelector(".form");
 const feedbackListEl = document.querySelector(".feedbacks");
 const submitBtnEl = document.querySelector(".submit-btn");
 const spinnerEl = document.querySelector(".spinner");
-
-const MAX_CHARS = 150;
 
 const renderFeedbackItems = (feedbackItem) => {
   const feedbackItemHTML = `
@@ -85,7 +86,7 @@ const submitHandler = (event) => {
   // console.log(text.split(" ").filter((item) => item.includes("#")));
   renderFeedbackItems(feedbackItem);
 
-  fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks", {
+  fetch(`${BASE_API}/feedbacks`, {
     method: "POST",
     body: JSON.stringify(feedbackItem),
     headers: {
@@ -111,8 +112,14 @@ formEl.addEventListener("submit", submitHandler);
 // Ajax programming allows to update elements without refrefreshing page
 // FEEDBACK LIST COMPONENT
 
+const clickHandler = async (event) => {
+  console.log(event);
+};
+
+feedbackListEl.addEventListener("click", clickHandler);
+
 // fetch("https://jsonplaceholder.typicode.com/todos");
-fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
+fetch(`${BASE_API}/feedbacks`)
   .then((response) => {
     return response.json();
   })
