@@ -84,6 +84,16 @@ const submitHandler = (event) => {
 
   // console.log(text.split(" ").filter((item) => item.includes("#")));
   renderFeedbackItems(feedbackItem);
+
+  fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks", {
+    method: "POST",
+    body: JSON.stringify(feedbackItem),
+    headers: {
+      Accept: "application",
+      "Content-Type": "application/json",
+    },
+  });
+
   textareaEl.value = "";
   submitBtnEl.blur();
   counterEl.textContent = MAX_CHARS;
@@ -102,9 +112,7 @@ fetch("https://bytegrad.com/course-assets/js/1/api/feedbacks")
     // console.log(data.feedbacks[0]);
     spinnerEl.remove();
 
-    data.feedbacks.forEach((item) => {
-      renderFeedbackItems(item);
-    });
+    data.feedbacks.forEach((item) => renderFeedbackItems(item));
   })
   .catch((error) => {
     feedbackListEl.textContent = `Failed to fetch feedback items: ${error.message}`;
