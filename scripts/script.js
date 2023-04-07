@@ -89,10 +89,18 @@ const submitHandler = (event) => {
     method: "POST",
     body: JSON.stringify(feedbackItem),
     headers: {
-      Accept: "application",
+      Accept: "application/json",
       "Content-Type": "application/json",
     },
-  });
+  })
+    .then((response) => {
+      if (!response.ok) {
+        console.log(`Something went wrong: ${response.status} `);
+        return;
+      }
+      console.log("successfully submitted");
+    })
+    .catch((error) => console.log(error));
 
   textareaEl.value = "";
   submitBtnEl.blur();
