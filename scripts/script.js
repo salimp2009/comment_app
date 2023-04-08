@@ -113,7 +113,14 @@ formEl.addEventListener("submit", submitHandler);
 // FEEDBACK LIST COMPONENT
 
 const clickHandler = async (event) => {
+  const clickedEl = event.target;
   console.log(event);
+  console.log(event.target);
+
+  if (clickedEl.className.includes("upvote")) {
+    console.log("this is upvote!");
+  } else {
+  }
 };
 
 feedbackListEl.addEventListener("click", clickHandler);
@@ -124,7 +131,6 @@ fetch(`${BASE_API}/feedbacks`)
     return response.json();
   })
   .then((data) => {
-    // console.log(data.feedbacks[0]);
     spinnerEl.remove();
 
     data.feedbacks.forEach((item) => renderFeedbackItems(item));
