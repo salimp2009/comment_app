@@ -118,7 +118,8 @@ const clickHandler = async (event) => {
   console.log(event.target);
 
   if (clickedEl.className.includes("upvote")) {
-    console.log("this is upvote!");
+    const upvoteBtnEl = clickedEl.closest(".upvote");
+    upvoteBtnEl.disabled = true;
   } else {
     clickedEl.closest(".feedback").classList.toggle("feedback--expand");
   }
