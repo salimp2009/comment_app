@@ -120,6 +120,7 @@ const clickHandler = async (event) => {
   if (clickedEl.className.includes("upvote")) {
     console.log("this is upvote!");
   } else {
+    clickedEl.closest(".feedback").classList.toggle("feedback--expand");
   }
 };
 
@@ -131,6 +132,7 @@ fetch(`${BASE_API}/feedbacks`)
     return response.json();
   })
   .then((data) => {
+    // console.log(data.feedbacks[0]);
     spinnerEl.remove();
 
     data.feedbacks.forEach((item) => renderFeedbackItems(item));
