@@ -8,6 +8,7 @@ const formEl = document.querySelector(".form");
 const feedbackListEl = document.querySelector(".feedbacks");
 const submitBtnEl = document.querySelector(".submit-btn");
 const spinnerEl = document.querySelector(".spinner");
+const hashtagListEl = document.querySelector(".hashtags");
 
 const renderFeedbackItems = (feedbackItem) => {
   const feedbackItemHTML = `
@@ -145,3 +146,10 @@ fetch(`${BASE_API}/feedbacks`)
   .catch((error) => {
     feedbackListEl.textContent = `Failed to fetch feedback items: ${error.message}`;
   });
+
+// HASHTAG LIST COMPONENT
+const clickHandler2 = async (event) => {
+  console.log(event);
+};
+
+hashtagListEl.addEventListener("click", clickHandler2);
