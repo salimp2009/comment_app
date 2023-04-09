@@ -111,7 +111,6 @@ formEl.addEventListener("submit", submitHandler);
 
 // Ajax programming allows to update elements without refrefreshing page
 // FEEDBACK LIST COMPONENT
-
 const clickHandler = async (event) => {
   const clickedEl = event.target;
   console.log(event);
@@ -120,6 +119,11 @@ const clickHandler = async (event) => {
   if (clickedEl.className.includes("upvote")) {
     const upvoteBtnEl = clickedEl.closest(".upvote");
     upvoteBtnEl.disabled = true;
+
+    const upvoteCountEl = upvoteBtnEl.querySelector(".upvote__count");
+    // + sign turns string into number
+    let upvoteCount = +upvoteCountEl.textContent;
+    upvoteCountEl.textContent = ++upvoteCount;
   } else {
     clickedEl.closest(".feedback").classList.toggle("feedback--expand");
   }
