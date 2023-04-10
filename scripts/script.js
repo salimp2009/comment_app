@@ -159,6 +159,18 @@ const clickHandler2 = async (event) => {
     .toLowerCase()
     .trim();
   console.log(companyNameFrmHshTag);
+
+  feedbackListEl.childNodes.forEach((childnode) => {
+    if (childnode.nodeType === 3) return;
+    console.log(childnode);
+    const companyName = childnode
+      .querySelector(".feedback__company")
+      .textContent.toLowerCase()
+      .trim();
+    if (companyName !== companyNameFrmHshTag) {
+      childnode.remove();
+    }
+  });
 };
 
 hashtagListEl.addEventListener("click", clickHandler2);
