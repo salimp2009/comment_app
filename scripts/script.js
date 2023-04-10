@@ -33,6 +33,36 @@ const renderFeedbackItems = (feedbackItem) => {
   feedbackListEl.insertAdjacentHTML("beforeend", feedbackItemHTML);
 };
 
+// this does not work; hashtagItem.querySelector(".hashtag") gives an error
+// as if querySelector is not a function
+const addHashTag = (hashtag) => {
+  const feedbackItemHashTag = `
+        <li class="hashtags__item">
+          <button class="hashtag">${`#${hashtag}`}</button>
+        </li>
+`;
+  console.log(hashtag);
+
+  hashtagListEl.childNodes.forEach((childnode) => {
+    console.log(childnode.nodeType);
+    if (childnode.nodeType === 3) {
+      return;
+    }
+    const companyFrmHashTagLst = childnode
+      .querySelector(".hashtag")
+      .textContent.substring(1)
+      .toLowerCase()
+      .trim();
+
+    console.log(companyFrmHashTagLst);
+    if (companyFrmHashTagLst === `${hashtag.trim()}`) {
+      return;
+    } else {
+      hashtagListEl.insertAdjacentHTML("beforeend", feedbackItemHashTag);
+    }
+  });
+};
+
 // COUNTER COMPONENT
 const inputHandler = () => {
   const nrCharsTyped = textareaEl.value.length;
@@ -86,6 +116,7 @@ const submitHandler = (event) => {
 
   // console.log(text.split(" ").filter((item) => item.includes("#")));
   renderFeedbackItems(feedbackItem);
+  addHashTag(feedbackItem.company);
 
   fetch(`${BASE_API}/feedbacks`, {
     method: "POST",
@@ -162,7 +193,7 @@ const clickHandler2 = async (event) => {
 
   feedbackListEl.childNodes.forEach((childnode) => {
     if (childnode.nodeType === 3) return;
-    console.log(childnode);
+    // console.log(childnode);
     const companyName = childnode
       .querySelector(".feedback__company")
       .textContent.toLowerCase()
