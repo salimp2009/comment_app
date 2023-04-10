@@ -149,7 +149,16 @@ fetch(`${BASE_API}/feedbacks`)
 
 // HASHTAG LIST COMPONENT
 const clickHandler2 = async (event) => {
+  const clickedEl = event.target;
+  if (clickedEl.className === "hashtags") return;
+
   console.log(event);
+  console.log(clickedEl);
+  const companyNameFrmHshTag = clickedEl.textContent
+    .substring(1)
+    .toLowerCase()
+    .trim();
+  console.log(companyNameFrmHshTag);
 };
 
 hashtagListEl.addEventListener("click", clickHandler2);
