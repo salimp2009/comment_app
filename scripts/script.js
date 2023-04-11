@@ -62,83 +62,92 @@ const addHashTag = (hashtag) => {
   hashtagListEl.insertAdjacentHTML("beforeend", feedbackItemHashTag);
 };
 
+function hasScript(text) {
+  const scriptPattern = /<[\s\S]*?script[\s\S]*?>/i;
+  return scriptPattern.test(text);
+}
+
 // COUNTER COMPONENT
-const inputHandler = () => {
-  const nrCharsTyped = textareaEl.value.length;
-  const remainingChars = MAX_CHARS - nrCharsTyped;
-  counterEl.textContent = remainingChars;
-};
-
-textareaEl.addEventListener("input", inputHandler);
-
-// FORM COMPONENT
-const formVisualValidator = (validation) => {
-  const className = `form--${validation}`;
-
-  formEl.classList.add(className);
-
-  setTimeout(() => {
-    formEl.classList.remove(className);
-  }, 2000);
-};
-
-const submitHandler = (event) => {
-  event.preventDefault();
-  const text = textareaEl.value.toString();
-
-  if (text.length > 4 && text.includes("#")) {
-    formVisualValidator("valid");
-  } else {
-    formVisualValidator("invalid");
-    textareaEl.focus();
-    return;
-  }
-
-  const hashtag = text.split(" ").find((word) => word.includes("#"));
-  // original was company
-  const company = hashtag.replace("#", "");
-  const badgeLetter = company.substring(0, 2).toUpperCase();
-  const upvoteCount = 0;
-  const daysAgo = 0;
-
-  const feedbackItem = {
-    upvoteCount,
-    company,
-    badgeLetter,
-    text,
-    daysAgo,
+(() => {
+  const inputHandler = () => {
+    const nrCharsTyped = textareaEl.value.length;
+    const remainingChars = MAX_CHARS - nrCharsTyped;
+    counterEl.textContent = remainingChars;
   };
 
-  // const searchHash = /#/;
-  // const hashtag2 = text.split(" ").filter((word) => word.match(searchHash));
-  // console.log("regex:", hashtag2);
+  textareaEl.addEventListener("input", inputHandler);
+})();
 
-  // console.log(text.split(" ").filter((item) => item.includes("#")));
-  renderFeedbackItems(feedbackItem);
-  addHashTag(feedbackItem.company);
+// FORM COMPONENT
+(() => {
+  const formVisualValidator = (validation) => {
+    const className = `form--${validation}`;
 
-  fetch(`${BASE_API_URL}/feedbacks`, {
-    method: "POST",
-    body: JSON.stringify(feedbackItem),
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        console.log(`Something went wrong: ${response.status} `);
-        return;
-      }
-      console.log("successfully submitted");
+    formEl.classList.add(className);
+
+    setTimeout(() => {
+      formEl.classList.remove(className);
+    }, 2000);
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    const text = textareaEl.value.toString();
+
+    if (text.length > 4 && text.includes("#") && !hasScript(text)) {
+      formVisualValidator("valid");
+    } else {
+      formVisualValidator("invalid");
+      textareaEl.focus();
+      return;
+    }
+
+    const hashtag = text.split(" ").find((word) => word.includes("#"));
+    // original was company
+    const company = hashtag.replace("#", "");
+    const badgeLetter = company.substring(0, 2).toUpperCase();
+    const upvoteCount = 0;
+    const daysAgo = 0;
+
+    const feedbackItem = {
+      upvoteCount,
+      company,
+      badgeLetter,
+      text,
+      daysAgo,
+    };
+
+    // const searchRegex = /#/;
+    // const hashtag2 = text.split(" ").filter((word) => word.match(searchRegex));
+    // console.log("regex:", hashtag2);
+
+    // console.log(text.split(" ").filter((item) => item.includes("#")));
+    renderFeedbackItems(feedbackItem);
+    addHashTag(feedbackItem.company);
+
+    fetch(`${BASE_API_URL}/feedbacks`, {
+      method: "POST",
+      body: JSON.stringify(feedbackItem),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
     })
-    .catch((error) => console.log(error));
+      .then((response) => {
+        if (!response.ok) {
+          console.log(`Something went wrong: ${response.status} `);
+          return;
+        }
+        console.log("successfully submitted");
+      })
+      .catch((error) => console.log(error));
 
-  textareaEl.value = "";
-  submitBtnEl.blur();
-  counterEl.textContent = MAX_CHARS;
-};
-formEl.addEventListener("submit", submitHandler);
+    textareaEl.value = "";
+    submitBtnEl.blur();
+    counterEl.textContent = MAX_CHARS;
+  };
+  formEl.addEventListener("submit", submitHandler);
+})();
 
 // Ajax programming allows to update elements without refrefreshing page
 // FEEDBACK LIST COMPONENT
