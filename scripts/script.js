@@ -1,6 +1,6 @@
 // GLOBALs
 const MAX_CHARS = 150;
-const BASE_API = "https://bytegrad.com/course-assets/js/1/api";
+const BASE_API_URL = "https://bytegrad.com/course-assets/js/1/api";
 
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
@@ -57,10 +57,9 @@ const addHashTag = (hashtag) => {
     console.log(companyFrmHashTagLst);
     if (companyFrmHashTagLst === `${hashtag.trim()}`) {
       return;
-    } else {
-      hashtagListEl.insertAdjacentHTML("beforeend", feedbackItemHashTag);
     }
   });
+  hashtagListEl.insertAdjacentHTML("beforeend", feedbackItemHashTag);
 };
 
 // COUNTER COMPONENT
@@ -118,7 +117,7 @@ const submitHandler = (event) => {
   renderFeedbackItems(feedbackItem);
   addHashTag(feedbackItem.company);
 
-  fetch(`${BASE_API}/feedbacks`, {
+  fetch(`${BASE_API_URL}/feedbacks`, {
     method: "POST",
     body: JSON.stringify(feedbackItem),
     headers: {
@@ -143,65 +142,72 @@ formEl.addEventListener("submit", submitHandler);
 
 // Ajax programming allows to update elements without refrefreshing page
 // FEEDBACK LIST COMPONENT
-const clickHandler = async (event) => {
-  const clickedEl = event.target;
-  console.log(event);
-  console.log(event.target);
+(() => {
+  const clickHandler = (event) => {
+    const clickedEl = event.target;
+    console.log(event);
+    console.log(event.target);
 
-  if (clickedEl.className.includes("upvote")) {
-    const upvoteBtnEl = clickedEl.closest(".upvote");
-    upvoteBtnEl.disabled = true;
+    if (clickedEl.className.includes("upvote")) {
+      const upvoteBtnEl = clickedEl.closest(".upvote");
+      upvoteBtnEl.disabled = true;
 
-    const upvoteCountEl = upvoteBtnEl.querySelector(".upvote__count");
-    // + sign turns string into number
-    let upvoteCount = +upvoteCountEl.textContent;
-    upvoteCountEl.textContent = ++upvoteCount;
-  } else {
-    clickedEl.closest(".feedback").classList.toggle("feedback--expand");
-  }
-};
+      const upvoteCountEl = upvoteBtnEl.querySelector(".upvote__count");
+      // + sign turns string into number
+      let upvoteCount = +upvoteCountEl.textContent;
+      upvoteCountEl.textContent = ++upvoteCount;
+    } else {
+      clickedEl.closest(".feedback").classList.toggle("feedback--expand");
+    }
+  };
 
-feedbackListEl.addEventListener("click", clickHandler);
+  feedbackListEl.addEventListener("click", clickHandler);
 
-// fetch("https://jsonplaceholder.typicode.com/todos");
-fetch(`${BASE_API}/feedbacks`)
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    // console.log(data.feedbacks[0]);
-    spinnerEl.remove();
+  // fetch("https://jsonplaceholder.typicode.com/todos");
+  fetch(`${BASE_API_URL}/feedbacks`)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      // console.log(data.feedbacks[0]);
+      spinnerEl.remove();
 
-    data.feedbacks.forEach((item) => renderFeedbackItems(item));
-  })
-  .catch((error) => {
-    feedbackListEl.textContent = `Failed to fetch feedback items: ${error.message}`;
-  });
+      data.feedbacks.forEach((item) => renderFeedbackItems(item));
+    })
+    .catch((error) => {
+      feedbackListEl.textContent = `Failed to fetch feedback items: ${error.message}`;
+    });
+})();
 
 // HASHTAG LIST COMPONENT
-const clickHandler2 = async (event) => {
-  const clickedEl = event.target;
-  if (clickedEl.className === "hashtags") return;
+// additional (()=>{})() is to have those function within that
+// specific scope therefore prevent name clash; (old way of doing)
+// modern way is to have in seperate files and components
+(() => {
+  const clickHandler = (event) => {
+    const clickedEl = event.target;
+    if (clickedEl.className === "hashtags") return;
 
-  console.log(event);
-  console.log(clickedEl);
-  const companyNameFrmHshTag = clickedEl.textContent
-    .substring(1)
-    .toLowerCase()
-    .trim();
-  console.log(companyNameFrmHshTag);
-
-  feedbackListEl.childNodes.forEach((childnode) => {
-    if (childnode.nodeType === 3) return;
-    // console.log(childnode);
-    const companyName = childnode
-      .querySelector(".feedback__company")
-      .textContent.toLowerCase()
+    console.log(event);
+    console.log(clickedEl);
+    const companyNameFrmHshTag = clickedEl.textContent
+      .substring(1)
+      .toLowerCase()
       .trim();
-    if (companyName !== companyNameFrmHshTag) {
-      childnode.remove();
-    }
-  });
-};
+    console.log(companyNameFrmHshTag);
 
-hashtagListEl.addEventListener("click", clickHandler2);
+    feedbackListEl.childNodes.forEach((childnode) => {
+      if (childnode.nodeType === 3) return;
+      // console.log(childnode);
+      const companyName = childnode
+        .querySelector(".feedback__company")
+        .textContent.toLowerCase()
+        .trim();
+      if (companyName !== companyNameFrmHshTag) {
+        childnode.remove();
+      }
+    });
+  };
+
+  hashtagListEl.addEventListener("click", clickHandler);
+})();
